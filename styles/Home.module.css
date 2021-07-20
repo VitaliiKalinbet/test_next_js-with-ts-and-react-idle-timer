@@ -1,6 +1,13 @@
 .main {
   height: 100vh;
+  padding: 2rem;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.link {
+  margin-top: 50px;
+  display: block;
 }

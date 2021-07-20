@@ -1,10 +1,11 @@
-import Head from "next/head";
 import React from "react";
+import Head from "next/head";
+import Link from "next/link";
 import useIdleTimer from "../src/hooks/useIdleTimer";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
-  const { handleOnIdle, handleOnActive } = useIdleTimer(
+  const { handleOnIdle, handleOnActive, resetTotalActiveTime } = useIdleTimer(
     "solveAutocheckTask",
     "html-100"
   );
@@ -18,8 +19,23 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <button onClick={handleOnActive}>Start time activity</button>
-        <button onClick={handleOnIdle}>End time activity</button>
+        <div>
+          <button onClick={handleOnActive}>Start time activity</button>
+          <button
+            onClick={() => {
+              handleOnIdle();
+              resetTotalActiveTime();
+            }}
+          >
+            End time activity
+          </button>
+        </div>
+
+        <Link href="/conspectus">
+          <a className={styles.link}>
+            <button>К конспектам</button>
+          </a>
+        </Link>
       </main>
     </div>
   );

@@ -20,8 +20,11 @@ export type TSecondArgument =
 const useIdleTimerHook = (eventName: TActivityName, 
   secondArgument: TSecondArgument ) => {
   const handleOnIdle = () => {
+    console.log("======");
+    console.log(eventName);
     console.log("user is idle");
-    console.log("last active", getTotalActiveTime());
+    console.log("summary active time , seconds: ", getTotalActiveTime() / 1000);
+    console.log("======");
     /* 
     тут отправлять запрос на бєкенд со всем суммарно активным временем которое можно получить вызвав getTotalActiveTime():
 
@@ -91,16 +94,19 @@ const useIdleTimerHook = (eventName: TActivityName,
   };
 
   const handleOnActive = () => {
+    console.log("======");
+    console.log(eventName);
     console.log("user is active");
+    console.log("======");
   };
 
-  const { getTotalActiveTime } = useIdleTimer({
+  const { getTotalActiveTime, reset: resetTotalActiveTime } = useIdleTimer({
     timeout: 3000,
     onIdle: handleOnIdle,
     onActive: handleOnActive,
   });
 
-  return { handleOnIdle, handleOnActive };
+  return { handleOnIdle, handleOnActive, resetTotalActiveTime };
   /*
     1. Задумано использовать в компоненте конспекта (или текстового доп материала) так:
 
