@@ -27,7 +27,7 @@ const useIdleTimerHook = (eventName: TActivityName,
     console.log("======");
   };
 
-  const stopAndResetTimer = () => {
+  const stopTimerAndRequestTimeToBackend = () => {
     // resetTotalActiveTime();
     console.log("======");
     console.log(eventName);
@@ -108,7 +108,7 @@ const useIdleTimerHook = (eventName: TActivityName,
     startManually: true,
   });
 
-  return { startTimer, stopAndResetTimer };
+  return { startTimer, stopTimerAndRequestTimeToBackend };
   /*
     1. Задумано использовать в компоненте конспекта (или текстового доп материала) так:
 

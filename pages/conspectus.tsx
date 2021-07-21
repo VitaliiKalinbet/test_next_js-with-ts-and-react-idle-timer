@@ -5,13 +5,16 @@ import useIdleTimer from "../src/hooks/useIdleTimer";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
-  const { startTimer, stopAndResetTimer } = useIdleTimer("readTextbook", 1134);
+  const { startTimer, stopTimerAndRequestTimeToBackend } = useIdleTimer(
+    "readTextbook",
+    1134
+  );
 
   useEffect(() => {
     startTimer();
 
     return () => {
-      stopAndResetTimer();
+      stopTimerAndRequestTimeToBackend();
     };
   });
 

@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import useIdleTimer from "../src/hooks/useIdleTimer";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
-  const { startTimer, stopAndResetTimer } = useIdleTimer(
+  const [timerIsActive, setTimerIsActive] = useState(false);
+  const { startTimer, stopTimerAndRequestTimeToBackend } = useIdleTimer(
     "solveAutocheckTask",
     "html-100"
   );
+
+  useEffect(() => {
+    return () => {
+      if (timerIsActive) {
+        stopTimerAndRequestTimeToBackend();
+      }
+    };
+  });
 
   return (
     <div className={styles.container}>
@@ -20,8 +29,22 @@ export default function Home() {
 
       <main className={styles.main}>
         <div>
-          <button onClick={startTimer}>Start time activity</button>
-          <button onClick={stopAndResetTimer}>End time activity</button>
+          <button
+            onClick={async () => {
+              await setTimerIsActive(true);
+              await startTimer();
+            }}
+          >
+            Start time activity
+          </button>
+          <button
+            onClick={async () => {
+              await setTimerIsActive(false);
+              await stopTimerAndRequestTimeToBackend();
+            }}
+          >
+            End time activity
+          </button>
         </div>
 
         <Link href="/conspectus">
