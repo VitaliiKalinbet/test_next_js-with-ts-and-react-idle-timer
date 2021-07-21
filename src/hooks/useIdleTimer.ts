@@ -19,11 +19,20 @@ export type TSecondArgument =
 
 const useIdleTimerHook = (eventName: TActivityName, 
   secondArgument: TSecondArgument ) => {
-  const handleOnIdle = () => {
+  const startTimer = () => {
+    startCountingTotalActiveTime();
     console.log("======");
     console.log(eventName);
-    console.log("user is idle");
-    console.log("summary active time , seconds: ", getTotalActiveTime() / 1000);
+    console.log("START TIMER");
+    console.log("======");
+  };
+
+  const stopAndResetTimer = () => {
+    // resetTotalActiveTime();
+    console.log("======");
+    console.log(eventName);
+    console.log("STOP TIMER");
+    console.log("summary active time, miliseconds: ", getTotalActiveTime());
     console.log("======");
     /* 
     тут отправлять запрос на бєкенд со всем суммарно активным временем которое можно получить вызвав getTotalActiveTime():
@@ -93,20 +102,13 @@ const useIdleTimerHook = (eventName: TActivityName,
     */
   };
 
-  const handleOnActive = () => {
-    console.log("======");
-    console.log(eventName);
-    console.log("user is active");
-    console.log("======");
-  };
-
-  const { getTotalActiveTime, reset: resetTotalActiveTime } = useIdleTimer({
+  const { getTotalActiveTime, start: startCountingTotalActiveTime} = useIdleTimer({
     timeout: 3000,
-    onIdle: handleOnIdle,
-    onActive: handleOnActive,
+    startOnMount: false,
+    startManually: true,
   });
 
-  return { handleOnIdle, handleOnActive, resetTotalActiveTime };
+  return { startTimer, stopAndResetTimer };
   /*
     1. Задумано использовать в компоненте конспекта (или текстового доп материала) так:
 
@@ -118,15 +120,17 @@ const useIdleTimerHook = (eventName: TActivityName,
       }
     }, [])
 
+    Пример:
+    https://test-next-js-with-ts-and-react-idle-timer.vercel.app/conspectus
+
     2. В автопроверках:
       handleOnActive() - запускать в дидмаунте страницы, только если задача не решена;
       handleOnIdle(); - запускать в функции проверки результата решения задачи, если задача решена полностью правильно ИЛИ при размаунте страницы/компонента
 
-    * таким образом будем фиксировать время первого решения каждой задачи по id 
-
-    3. в видео доп материалах:
-      handleOnActive() - на play
-      handleOnIdle() - на стоп или паузу, или при размонтировании компонента
+    * таким образом будем фиксировать время первого решения каждой задачи по id
+      
+    Пример:
+    https://test-next-js-with-ts-and-react-idle-timer.vercel.app
   */
 };
 

@@ -5,19 +5,15 @@ import useIdleTimer from "../src/hooks/useIdleTimer";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
-  const { handleOnIdle, handleOnActive, resetTotalActiveTime } = useIdleTimer(
-    "readTextbook",
-    1134
-  );
+  const { startTimer, stopAndResetTimer } = useIdleTimer("readTextbook", 1134);
 
   useEffect(() => {
-    handleOnActive();
+    startTimer();
 
     return () => {
-      handleOnIdle();
-      resetTotalActiveTime();
+      stopAndResetTimer();
     };
-  }, [handleOnActive, handleOnIdle, resetTotalActiveTime]);
+  });
 
   return (
     <div className={styles.container}>

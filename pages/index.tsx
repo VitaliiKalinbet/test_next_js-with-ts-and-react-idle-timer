@@ -5,7 +5,7 @@ import useIdleTimer from "../src/hooks/useIdleTimer";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
-  const { handleOnIdle, handleOnActive, resetTotalActiveTime } = useIdleTimer(
+  const { startTimer, stopAndResetTimer } = useIdleTimer(
     "solveAutocheckTask",
     "html-100"
   );
@@ -20,15 +20,8 @@ export default function Home() {
 
       <main className={styles.main}>
         <div>
-          <button onClick={handleOnActive}>Start time activity</button>
-          <button
-            onClick={() => {
-              handleOnIdle();
-              resetTotalActiveTime();
-            }}
-          >
-            End time activity
-          </button>
+          <button onClick={startTimer}>Start time activity</button>
+          <button onClick={stopAndResetTimer}>End time activity</button>
         </div>
 
         <Link href="/conspectus">
